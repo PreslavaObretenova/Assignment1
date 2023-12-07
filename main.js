@@ -10,8 +10,8 @@ let height = window.innerHeight;
 //-- GUI PAREMETERS
  var gui;
  const parameters = {
-  resolutionX: 3,
-  rotationX: 100
+  resolutionX: 40,
+  rotationX: 360
  }
 
 
@@ -36,22 +36,23 @@ function main(){
   //GUI
     gui = new GUI;
     gui.add(parameters, 'resolutionX', 1, 10, 1);
-    gui.add(parameters, 'rotationX', 0, 180);
+    gui.add(parameters, 'rotationX', 1, 360);
+    gui.addColor
 
 
   //CREATE SCENE AND CAMERA
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera( 55, width / height, 0.1, 100);
-  camera.position.set(10, 10, 10)
+  camera = new THREE.PerspectiveCamera( 50, width / height, 0.1, 100);
+  camera.position.set(0, 10, 14)
 
 
   //LIGHTINGS
   ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
   scene.add(ambientLight);
-
+  
   directionalLight = new THREE.DirectionalLight( 0xffffff, 1);
-  directionalLight.position.set(2,5,5);
-  directionalLight.target.position.set(-1,-1,0);
+  directionalLight.position.set(1,4,5);
+  directionalLight.target.position.set(-5,-5,0);
   scene.add( directionalLight );
   scene.add(directionalLight.target);
 
@@ -59,7 +60,7 @@ function main(){
   // Initiate first cubes
   createCubes();
   rotateCubes();
-
+ 
 
   //RESPONSIVE WINDOW
   window.addEventListener('resize', handleResize);
@@ -73,7 +74,9 @@ function main(){
   
   //CREATE MOUSE CONTROL
   control = new OrbitControls( camera, renderer.domElement );
-
+  
+  
+  
   //EXECUTE THE UPDATE
   animate();
 }
@@ -89,13 +92,13 @@ function main(){
 function createCubes(){
  
   for(let i=0; i<resX; i++){
-   const geometry = new THREE.CylinderGeometry(0.4, 5,1);
+   const geometry = new THREE.CylinderGeometry(0.4, 5,0.9);
    const material = new THREE.MeshPhysicalMaterial();
    material.color =  new THREE.Color(0x90ee90);
    material.color.setRGB(0,1,Math.random(0x90ee90));
    
    const cube = new THREE.Mesh(geometry, material);
-   cube.position.set(i*0.1, 0, 0);
+   cube.position.set(i*0, 0, 0);
    cube.name = "cube " + i;
    sceneCubes.push(cube);
 
@@ -172,6 +175,8 @@ function animate() {
     removeCubes();
     createCubes();
     rotateCubes();
+ 
+   
   }
  
   if (rotX != parameters.rotationX){
